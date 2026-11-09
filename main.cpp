@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 
@@ -47,7 +48,7 @@ using namespace std;
                        cout << "Magazyn jest pusty!! dodaj cos do magazynu!"<<endl;
                    }else {
                        cout << "---Zawartosc Magazynu---"<<endl;
-                       for (int i = 0; magazyn.size(); i++ ) {
+                       for (int i = 0; i  <  magazyn.size(); i++ ) {
                            cout << i + 1 << ". " << magazyn[i].nazwa <<
                                " | cena: " << magazyn[i].cena << " zł" <<
                                    " | ilosc: " << magazyn[i].ilosc << " .szt" << endl;
@@ -56,6 +57,21 @@ using namespace std;
                    }
                    break;
                }
+
+               case 3:
+                   if (magazyn.empty()) {
+                       cout << "Magzayn jest pusty!!"<<endl;
+                   }else {
+                       auto it = max_element(magazyn.begin(), magazyn.end(), [](const Product& a, const Product& b) {
+                          return a.cena < b.cena;
+                       });
+
+                       cout << "Najdrozszy produkt: " << it->nazwa << endl;
+                       cout << "Cena: "<< it->cena << " zł" <<endl;
+                   }
+
+
+                   break;
                case 4:
 
                    return 0;
