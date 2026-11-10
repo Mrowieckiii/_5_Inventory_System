@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 using namespace std;
 
 
@@ -22,7 +23,9 @@ using namespace std;
            cout << "1.Dodaj produkt" << endl;
            cout << "2.Wyswietl magazyn"<<endl;
            cout << "3.Szukaj najdrozszego"<<endl;
-           cout <<"4.Wyjdź"<<endl;
+           cout <<"4.Zapisz Magazyn"<<endl;
+           cout << "5.Wczytaj zapisany Magazyn"<<endl;
+           cout <<"6.Wyjdź"<<endl;
            cin >> wybor;
 
            switch (wybor) {
@@ -72,11 +75,38 @@ using namespace std;
 
 
                    break;
-               case 4:
-
+               case 4:{
+                   ofstream plik("zapis.txt");
+                   if (plik.is_open()) {
+                       for (int i = 0; i < magazyn.size(); i++ ) {
+                           plik << magazyn[i].nazwa << " "<< magazyn[i].cena << " " <<  magazyn[i].ilosc << endl;
+                       }
+                       plik.close();
+                       cout << "Zapisano dane!!" << endl;
+                   }else {
+                       cout << "Błąd podczas otwierania pliku!"<<endl;
+                   }
+                   break;
+           }
+               case 5: {
+                   ifstream plik("zapis.txt");
+                   if (plik.is_open()) {
+                        magazyn.clear();
+                       Product temp;
+                       while(plik >> temp.nazwa >> temp.cena >> temp.ilosc) {
+                        magazyn.push_back(temp);
+                       }
+                   }else {
+                       cout << "Plik jescze nie istnieje !! , Stworz Magazyn i wczytaj aby wyświetlić!! "<<endl;
+                   }
+                   plik.close();
+                   cout<< "Wczytano dane z Pliku!!"<<endl;
+                   break;
+               }
+               case 6:
                    return 0;
                default:
-               cout << "Nie poprawna wartość!! wybierz z zakresu (1-4)!!"<<endl;
+               cout << "Nie poprawna wartość!! wybierz z zakresu (1-6)!!"<<endl;
                    break;
            }
        }
